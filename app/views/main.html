@@ -1,0 +1,27 @@
+ <div class="row">
+        <div class="col-xs-6">
+          <spread-sheet
+            data-data="data"
+            data-min-spareRows="1"
+            data-row-headers="true"
+            data-col-headers="true"
+            data-context-menu="true"
+
+            data-export="export"
+            enable-charts="barchart, someother"
+            id="chart1"
+            >
+          </spread-sheet>
+        </div>
+        <div class="col-xs-6">
+            <highchart chart-data="barchart" listener="one"></highchart>
+        </div>
+          {{export}}
+ </div>
+
+
+
+
+
+
+
