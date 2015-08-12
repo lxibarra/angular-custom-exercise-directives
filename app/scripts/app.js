@@ -18,7 +18,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngcSpreadSheet',
-    'highcharts'
+    'highcharts',
+    'formGeneration'
   ])
   .config(function ($routeProvider) {
     $routeProvider
