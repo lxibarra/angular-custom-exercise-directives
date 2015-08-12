@@ -7,104 +7,73 @@
  * # enableCharts
  */
 angular.module('highcharts')
-  .directive('enableCharts', function(formGenerator) {
+  .directive('enableCharts', function(formGenerator, forSignatures) {
     return {
       restrict:'A',
       require:'^spreadSheet',
       link:function(scope, element, attrs, ctrl) {
-        scope.id = attrs.id + '_conf';
-        element.parent().append('<div id="' + scope.id +'" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title" id="myModalLabel">Modal title</h4> </div> <div class="modal-body"> ... </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button> </div> </div> </div> </div>');
 
+        //compile forms and put them at the body for later use.
+        element.parent().append(formGenerator('bar', scope));
+        element.parent().append(formGenerator('pie', scope));
+        element.parent().append(formGenerator('line', scope));
+
+        //create an array of the variables we have to update on the scope.
         var listeners = attrs.enableCharts.split(',');
 
-        console.log(formGenerator('bar'));
-
-        function setData(option) {
-
-          if(option === 'bar') {
-
-            jQuery('#' + scope.id).modal();
-
-            //update up to controller scope
-            scope.$apply(function() {
-              scope.export = 'naaa';
-            });
-
-          }
-
-          //console.log(arguments);
-          scope.data.barExport = {};
-          var coords = this.getSelected();
-          scope.data.barExport.coords = {};
-          scope.data.barExport.coords.beginRow = coords[0];
-          scope.data.barExport.coords.beginCol = coords[1];
-          scope.data.barExport.coords.endRow = coords[2];
-          scope.data.barExport.coords.endCol = coords[3];
-
-          scope.data.barExport.data = this.getData(
-            coords[0],
-            coords[1],
-            coords[2],
-            coords[3]);
-          //console.log(scope.data.barExport);
-
-        }
-
-        function createSubOps(option) {
-          var subOps = [];
-          listeners.forEach(function(i){
-            subOps.push(
-              {
-                name:i,
-                callback:function() {
-                  setData.call(this, option);
-                }
-              }
-            );
-          });
-
-          return subOps
-        }
-
-
-
-        var ChartMenu = {
-          contextMenu:  {
-
-            items: {
-              'add_chart':{
-                name:'Add Chart',
-                submenu:[
-                  {
-                    name:'bar',
-                    submenu:createSubOps('bar')
-                  },
-                  {
-                    name:'Pie',
-                    submenu:createSubOps('Pie')
-                  },
-                  {
-                    name:'Line',
-                    submenu:createSubOps('Line')
-                  }
-                ]
-              },
-              'hsep1':'---------',
-              row_above:{},
-              row_below:{},
-              remove_row: {},
-              col_left: {},
-              col_right:{},
-              alignment: {}
-            }
-          }
-
-        };
+        //generate context menu for handsome table and add event listener for option selected
+        var ContextMenu = forSignatures.getContextMenu(this, listeners, function(option, listener) {
+            //listener will be updated each time the modal is opened
+            scope.listener = listener;
+            $('[data-type=' + option + ']').modal();
+        });
 
         ctrl.Handsometable.destroy();
         ctrl.conf.data = scope.data;
         ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
-        ctrl.Hansometable.updateSettings(ChartMenu);
+        ctrl.Hansometable.updateSettings(ContextMenu);
+      },
+      controller:function($scope) {
+        $scope.submit = function(model) {
+          $scope[this.listener] = forSignatures.getChart(model);
+
+        };
       }
     }
   });
+
+
+/*
+ //current function that gets slected data from spreadseeht buts its really dirty
+ function setData(option) {
+
+
+ if(option === 'bar') {
+
+ jQuery('#' + scope.id).modal();
+
+ //update up to controller scope
+ scope.$apply(function() {
+ scope.export = 'naaa';
+ });
+
+ }
+
+ //console.log(arguments);
+ scope.data.barExport = {};
+ var coords = ctrl.Hansometable.getSelected();
+ scope.data.barExport.coords = {};
+ scope.data.barExport.coords.beginRow = coords[0];
+ scope.data.barExport.coords.beginCol = coords[1];
+ scope.data.barExport.coords.endRow = coords[2];
+ scope.data.barExport.coords.endCol = coords[3];
+
+ scope.data.barExport.data = ctrl.Hansometable.getData(
+ coords[0],
+ coords[1],
+ coords[2],
+ coords[3]);
+ console.log(scope.data.barExport);
+
+ }
+ */

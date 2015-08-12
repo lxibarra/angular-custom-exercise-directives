@@ -17,6 +17,10 @@ angular.module('highcharts', [])
       },
       link: function postLink(scope, element, attrs) {
         element.highcharts(scope.chartData);
+
+        scope.$watch('chartData', function() {
+          element.highcharts(scope.chartData);
+        });
       }
     };
   });

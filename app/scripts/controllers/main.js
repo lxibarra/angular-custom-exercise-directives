@@ -15,16 +15,9 @@ angular.module('angularExamApp')
       { year:2012, amount: 30 }
     ];
 
-    $scope.export = {};
-
-    $scope.$watch('export', function(newVal) {
-        console.log(newVal);
-    });
-
-
     $scope.barchart = {
       chart: {
-        type: 'column'
+        type: 'bar'
       },
       title: {
         text: 'Title'
@@ -44,6 +37,34 @@ angular.module('angularExamApp')
         name: 'John',
         data: [5, 7, 3]
       }]
+    };
+
+
+
+    $scope.crackit = function() {
+      $scope.barchart = {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'New title'
+        },
+        xAxis: {
+          categories: ['Cars', 'airplanes', 'skate boards']
+        },
+        yAxis: {
+          title: {
+            text: 'rides'
+          }
+        },
+        series: [{
+          name: 'Jane',
+          data: [10, 20, 30]
+        }, {
+          name: 'John',
+          data: [12, 2, 1]
+        }]
+      };
     }
 
   });
