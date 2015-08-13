@@ -41,48 +41,8 @@ angular.module('highcharts')
       }
       ,
       controller: function ($scope) {
-
         $scope.submit = function (model) {
-         // $scope.hello = 'New HEllo';
-          $scope.hello.message = 'NONE';
-          //$scope.SayHello('NEWER Hello');
-          $scope.barchart.data = {};
-          //console.log($scope.hello);
-
-          console.log($scope.hello);
-          //console.log(model);
-          //console.log(this.listener);
-          //$scope[this.listener] = forSignatures.getChart(model);
-          //$rootScope[this.listener]
-          /*console.log($scope['barchart']);
-          $scope.update = function () {
-            $scope.$parent['barchart'] = {
-              chart: {
-                type: 'column'
-              },
-              title: {
-                text: 'My custom title'
-              },
-              xAxis: {
-                categories: ['Cars', 'None', 'Other']
-              },
-              yAxis: {
-                title: {
-                  text: 'Fruit eaten'
-                }
-              },
-              series: [{
-                name: 'Jane',
-                data: [1, 0, 4]
-              }, {
-                name: 'John',
-                data: [5, 7, 3]
-              }]
-            };
-          };
-
-          $scope.update();
-          */
+          $scope[this.listener]['data'] = forSignatures.getChart(model);
         };
       }
 
