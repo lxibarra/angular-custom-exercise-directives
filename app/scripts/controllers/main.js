@@ -14,7 +14,7 @@ angular.module('angularExamApp')
       { year:2011, amount: 15 },
       { year:2012, amount: 30 }
     ];
-
+/*
     $scope.barchart = {
       chart: {
         type: 'bar'
@@ -65,6 +65,6 @@ angular.module('angularExamApp')
           data: [12, 2, 1]
         }]
       };
-    }
+    }*/
 
   });

@@ -11,8 +11,9 @@ angular.module('highcharts')
     return {
       restrict:'A',
       require:'^spreadSheet',
-      link:function(scope, element, attrs, ctrl) {
 
+      link:function(scope, element, attrs, ctrl) {
+        console.log(attrs);
         //compile forms and put them at the body for later use.
         element.parent().append(formGenerator('bar', scope));
         element.parent().append(formGenerator('pie', scope));
@@ -26,6 +27,10 @@ angular.module('highcharts')
             //listener will be updated each time the modal is opened
             scope.listener = listener;
             $('[data-type=' + option + ']').modal();
+            console.log(ctrl.Hansometable.getSelected());
+            //we have to get data from handsontable parseit and sendit to the form depending on the type of chart
+
+            //we also have to create a way to watch for changes on the spreadsheet
         });
 
         ctrl.Handsometable.destroy();

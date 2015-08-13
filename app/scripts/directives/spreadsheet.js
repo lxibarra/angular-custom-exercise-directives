@@ -20,8 +20,7 @@ angular.module('ngcSpreadSheet', [])
       template: '<div></div>',
       replace: true,
       scope: {
-        data: '=data',
-        export:'=export'
+        data: '=data'
       },
       link: function postLink(scope, element, attrs, ctrl) {
 
@@ -31,7 +30,7 @@ angular.module('ngcSpreadSheet', [])
         });
 
         scope.conf.afterChange = function(change, source) {
-
+            console.log(change, source);
             if(change) {
               var row = change[0][0],
                 col = change[0][1],
