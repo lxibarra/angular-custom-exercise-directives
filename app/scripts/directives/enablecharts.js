@@ -7,45 +7,88 @@
  * # enableCharts
  */
 angular.module('highcharts')
-  .directive('enableCharts', function(formGenerator, forSignatures) {
+  .directive('enableCharts', function (formGenerator, forSignatures) {
     return {
-      restrict:'A',
-      require:'^spreadSheet',
-
-      link:function(scope, element, attrs, ctrl) {
-        console.log(attrs);
+      restrict: 'E',
+      require: '^spreadSheet',
+      link: function (scope, element, attrs, ctrl) {
+        var modalHolder = attrs.modalHolder || 'body';
         //compile forms and put them at the body for later use.
-        element.parent().append(formGenerator('bar', scope));
-        element.parent().append(formGenerator('pie', scope));
-        element.parent().append(formGenerator('line', scope));
+        $(modalHolder).append(formGenerator('bar', scope));
+        $(modalHolder).append(formGenerator('pie', scope));
+        $(modalHolder).append(formGenerator('line', scope));
 
         //create an array of the variables we have to update on the scope.
-        var listeners = attrs.enableCharts.split(',');
+
+        var listeners = attrs.mappings.split(',');
 
         //generate context menu for handsome table and add event listener for option selected
-        var ContextMenu = forSignatures.getContextMenu(this, listeners, function(option, listener) {
-            //listener will be updated each time the modal is opened
-            scope.listener = listener;
-            $('[data-type=' + option + ']').modal();
-            console.log(ctrl.Hansometable.getSelected());
-            //we have to get data from handsontable parseit and sendit to the form depending on the type of chart
+        var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
+          //listener will be updated each time the modal is opened
+          scope.listener = listener;
+          $('[data-type=' + option + ']').modal();
+          console.log(ctrl.Hansometable.getSelected());
+          //we have to get data from handsontable parseit and sendit to the form depending on the type of chart
 
-            //we also have to create a way to watch for changes on the spreadsheet
+          //we also have to create a way to watch for changes on the spreadsheet
         });
 
+
+
         ctrl.Handsometable.destroy();
-        ctrl.conf.data = scope.data;
         ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
         ctrl.Hansometable.updateSettings(ContextMenu);
-      },
-      controller:function($scope) {
-        $scope.submit = function(model) {
-          $scope[this.listener] = forSignatures.getChart(model);
+      }
+      ,
+      controller: function ($scope) {
 
+        $scope.submit = function (model) {
+         // $scope.hello = 'New HEllo';
+          $scope.hello.message = 'NONE';
+          //$scope.SayHello('NEWER Hello');
+          $scope.barchart.data = {};
+          //console.log($scope.hello);
+
+          console.log($scope.hello);
+          //console.log(model);
+          //console.log(this.listener);
+          //$scope[this.listener] = forSignatures.getChart(model);
+          //$rootScope[this.listener]
+          /*console.log($scope['barchart']);
+          $scope.update = function () {
+            $scope.$parent['barchart'] = {
+              chart: {
+                type: 'column'
+              },
+              title: {
+                text: 'My custom title'
+              },
+              xAxis: {
+                categories: ['Cars', 'None', 'Other']
+              },
+              yAxis: {
+                title: {
+                  text: 'Fruit eaten'
+                }
+              },
+              series: [{
+                name: 'Jane',
+                data: [1, 0, 4]
+              }, {
+                name: 'John',
+                data: [5, 7, 3]
+              }]
+            };
+          };
+
+          $scope.update();
+          */
         };
       }
+
     }
-  });
+  })
+;
 
 
 /*

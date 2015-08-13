@@ -1,21 +1,25 @@
 <div class="row">
   <div class="col-xs-6">
+    {{hello}}
     <spread-sheet
-      data-data="data"
+      data-data="testing"
       data-min-spareRows="1"
       data-row-headers="true"
       data-col-headers="true"
       data-context-menu="true"
-      enable-charts="barchart, someother"
-
-      id="chart1"
-      >
+      id="chart1" ng-transclude="transclude">
+      <enable-charts data-mappings="barchart"></enable-charts>
     </spread-sheet>
   </div>
   <div class="col-xs-6">
-    <highchart chart-data="barchart" listener="one"></highchart>
+    {{barchart}}
+
+    <highchart chart-data="barchart.data"></highchart>
   </div>
+
+
 </div>
+
 
 
 

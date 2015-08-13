@@ -9,34 +9,50 @@
  */
 angular.module('angularExamApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.data = [
+    $scope.testing = [
       { year:2010, amount:10 },
       { year:2011, amount: 15 },
       { year:2012, amount: 30 }
     ];
-/*
+
+
+    $scope.hello = {
+      message:'Hello'
+    }
+
+    $scope.SayHello = function(value) {
+      $scope.hello = value;
+    }
+
+    $scope.print = function() {
+      console.log($scope.barchart);
+    }
+    //$scope.barchart = {};
+
     $scope.barchart = {
-      chart: {
-        type: 'bar'
-      },
-      title: {
-        text: 'Title'
-      },
-      xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
-      },
-      yAxis: {
+      data: {
+        chart: {
+          type: 'bar'
+        },
         title: {
-          text: 'Fruit eaten'
-        }
-      },
-      series: [{
-        name: 'Jane',
-        data: [1, 0, 4]
-      }, {
-        name: 'John',
-        data: [5, 7, 3]
-      }]
+          text: 'Title'
+        },
+        xAxis: {
+          categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+          title: {
+            text: 'Fruit eaten'
+          }
+        },
+        series: [{
+          name: 'Jane',
+          data: [1, 0, 4]
+        }, {
+          name: 'John',
+          data: [5, 7, 3]
+        }]
+      }
     };
 
 
@@ -65,6 +81,6 @@ angular.module('angularExamApp')
           data: [12, 2, 1]
         }]
       };
-    }*/
+    }
 
   });

@@ -19,6 +19,7 @@ angular.module('ngcSpreadSheet', [])
       restrict: 'E',
       template: '<div></div>',
       replace: true,
+      transclude: true,
       scope: {
         data: '=data'
       },
@@ -29,16 +30,16 @@ angular.module('ngcSpreadSheet', [])
           scope.conf[p] = CustomParser(attrs[p]);
         });
 
-        scope.conf.afterChange = function(change, source) {
-            console.log(change, source);
-            if(change) {
-              var row = change[0][0],
-                col = change[0][1],
-                val = change[0][3];
-              scope.$apply(function() {
-                scope.data[row][col] = val;
-              });
-            }
+        scope.conf.afterChange = function (change, source) {
+          console.log(change, source);
+          if (change) {
+            var row = change[0][0],
+              col = change[0][1],
+              val = change[0][3];
+            scope.$apply(function () {
+              scope.data[row][col] = val;
+            });
+          }
         };
 
         scope.conf.data = scope.data;
@@ -47,10 +48,10 @@ angular.module('ngcSpreadSheet', [])
         ctrl.Handsometable = new Handsontable(ctrl.DOMElement, scope.conf);
 
 
-
       },
-      controller:function() {
+      controller: function ($scope) {
 
       }
+
     };
   });
