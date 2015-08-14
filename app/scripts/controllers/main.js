@@ -9,26 +9,12 @@
  */
 angular.module('angularExamApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.testing = [
-      { year:2010, amount:10 },
-      { year:2011, amount: 15 },
-      { year:2012, amount: 30 }
-    ];
+
+    $scope.barchart = { };
 
 
-    $scope.hello = {
-      message:'Hello'
-    }
 
-    $scope.SayHello = function(value) {
-      $scope.hello = value;
-    }
-
-    $scope.print = function() {
-      console.log($scope.barchart);
-    }
-    //$scope.barchart = {};
-
+/*
     $scope.barchart = {
       data: {
         chart: {
@@ -55,32 +41,7 @@ angular.module('angularExamApp')
       }
     };
 
+*/
 
-
-    $scope.crackit = function() {
-      $scope.barchart = {
-        chart: {
-          type: 'column'
-        },
-        title: {
-          text: 'New title'
-        },
-        xAxis: {
-          categories: ['Cars', 'airplanes', 'skate boards']
-        },
-        yAxis: {
-          title: {
-            text: 'rides'
-          }
-        },
-        series: [{
-          name: 'Jane',
-          data: [10, 20, 30]
-        }, {
-          name: 'John',
-          data: [12, 2, 1]
-        }]
-      };
-    }
 
   });

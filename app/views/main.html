@@ -6,15 +6,17 @@
       data-row-headers="true"
       data-col-headers="true"
       data-context-menu="true"
+      data-manual-row-resize="true"
+      data-manual-column-resize="true"
+      data-min-rows="25"
+      data-min-cols="10"
       id="chart1" ng-transclude="transclude">
       <enable-charts data-mappings="barchart"></enable-charts>
     </spread-sheet>
   </div>
   <div class="col-xs-6">
-    <highchart chart-data="barchart.data"></highchart>
+    <highchart chart-data="barchart"></highchart>
   </div>
-
-
 </div>
 
 

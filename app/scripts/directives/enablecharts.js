@@ -7,7 +7,7 @@
  * # enableCharts
  */
 angular.module('highcharts')
-  .directive('enableCharts', function (formGenerator, forSignatures) {
+  .directive('enableCharts', function (formGenerator, forSignatures, cellReader, formMapper) {
     return {
       restrict: 'E',
       require: '^spreadSheet',
@@ -26,14 +26,24 @@ angular.module('highcharts')
         var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
           //listener will be updated each time the modal is opened
           scope.listener = listener;
+          var formData = cellReader(ctrl.Hansometable);
+          console.log(formData);
+          var jquery_maps = formMapper(formData.export, option);
+
+          Object.keys(jquery_maps).forEach(function(prop) {
+                $(prop).val(jquery_maps[prop]);
+                $(prop).trigger('input');
+          });
+
+
           $('[data-type=' + option + ']').modal();
-          console.log(ctrl.Hansometable.getSelected());
+          //we could regenerate the forms here in order to make data dynamic currently only 3 data sets are possible
+
+
           //we have to get data from handsontable parseit and sendit to the form depending on the type of chart
 
           //we also have to create a way to watch for changes on the spreadsheet
         });
-
-
 
         ctrl.Handsometable.destroy();
         ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);

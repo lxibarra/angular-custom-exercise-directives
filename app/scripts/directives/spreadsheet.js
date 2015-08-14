@@ -33,12 +33,19 @@ angular.module('ngcSpreadSheet', [])
         scope.conf.afterChange = function (change, source) {
           console.log(change, source);
           if (change) {
-            var row = change[0][0],
-              col = change[0][1],
-              val = change[0][3];
-            scope.$apply(function () {
-              scope.data[row][col] = val;
-            });
+            try {
+              var row = change[0][0],
+                col = change[0][1],
+                val = change[0][3];
+              if (scope.data[row][col]) {
+                scope.$apply(function () {
+                  scope.data[row][col] = val;
+                });
+              }
+            }
+            catch (e) {
+
+            }
           }
         };
 
