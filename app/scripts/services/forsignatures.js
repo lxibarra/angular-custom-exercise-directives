@@ -102,7 +102,8 @@ angular.module('highcharts')
     return {
       getContextMenu: _generateContextMenu,
       getChart: function (model) {
-        return chartParsers[model.chart.type](model);
+        //same blueprint (bar) works for all.
+        return chartParsers['bar'](model);
       }
     }
   });

@@ -26,16 +26,16 @@ angular.module('highcharts')
 
 
       exported.data.forEach(function(row) {
-        if(row[0]!= '') {
+        if(row[0]) {
           exported.xAxis.push(row[0]);
         }
       });
 
-      exported.xAxis = exported.xAxis.join(',');
+      exported.xAxis = exported.xAxis.join(',').trim();
       exported.series = [];
 
       exported.data[0].forEach(function(column) {
-        if(typeof column !== 'undefined' || column.length > 0) {
+        if(column !== null && column.length > 0) {
           exported.series.push({ name:column, data:[] });
         }
       });
@@ -45,7 +45,8 @@ angular.module('highcharts')
             var column = 1;
             while (column <= row.length) {
               if(row[column]) {
-                exported.series[column - 1].data.push(row[column]);
+                  row[column] = row[column].toString().trim()
+                  exported.series[column - 1].data.push(row[column].toString().trim());
               }
               column++;
             }

@@ -18,8 +18,8 @@ angular.module('highcharts')
         var modalHolder = attrs.modalHolder || 'body';
         //compile forms and put them at the body for later use.
         $(modalHolder).append(formGenerator('bar', scope));
-        $(modalHolder).append(formGenerator('pie', scope));
-        $(modalHolder).append(formGenerator('line', scope));
+        //$(modalHolder).append(formGenerator('pie', scope));
+        //$(modalHolder).append(formGenerator('line', scope));
 
         //create an array of the variables we have to update on the scope.
 
@@ -36,10 +36,10 @@ angular.module('highcharts')
           Object.keys(jquery_maps).forEach(function(prop) {
                 $(prop).val(jquery_maps[prop]);
                 $(prop).trigger('input');
+                $(prop).trigger('change');
           });
 
-
-          $('[data-type=' + option + ']').modal();
+          $('[data-type=chart_modal]').modal();
           //we could regenerate the forms here in order to make data dynamic currently only 3 data sets are possible
 
 
@@ -54,9 +54,8 @@ angular.module('highcharts')
       ,
       controller: function ($scope) {
         $scope.submit = function (model) {
-
           $scope.mappings[this.listener]['data'] = forSignatures.getChart(model);
-          console.log($scope.mappings[this.listener]);
+
         };
       }
 
