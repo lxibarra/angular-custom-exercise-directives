@@ -11,24 +11,24 @@
       data-min-rows="25"
       data-min-cols="10"
       id="chart1" ng-transclude="transclude">
-      <enable-charts data-mappings="chartplaceholder2, chartplaceholder1, chartplaceholder3"></enable-charts>
+      <enable-charts data-mappings="Mycharts"></enable-charts>
     </spread-sheet>
   </div>
   <div class="col-xs-6">
     <a class="btn btn-primary" ng-click="update1()">#1</a>
     <a class="btn btn-primary" ng-click="update2()">#2</a>
     <a class="btn btn-primary" ng-click="update3()">#3</a>
-    <highchart chart-data="chartplaceholder2" ng-transclude="transclude">
+    <highchart chart-data="Mycharts.chartplaceholder2" ng-transclude="transclude">
       <div class="chartHolder">
         <h2>Chart placeholder #2</h2>
       </div>
     </highchart>
-    <highchart chart-data="chartplaceholder1" ng-transclude="transclude">
+    <highchart chart-data="Mycharts.chartplaceholder1" ng-transclude="transclude">
       <div class="chartHolder">
         <h2>Chart placeholder #1</h2>
       </div>
     </highchart>
-    <highchart chart-data="chartplaceholder3" ng-transclude="transclude">
+    <highchart chart-data="Mycharts.chartplaceholder3" ng-transclude="transclude">
       <div class="chartHolder">
         <h2>Chart placeholder #3</h2>
       </div>

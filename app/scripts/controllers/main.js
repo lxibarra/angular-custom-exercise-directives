@@ -10,15 +10,14 @@ var caca;
 angular.module('angularExamApp')
   .controller('MainCtrl', function ($scope) {
 
-    $scope.chartplaceholder1 = {
-      // data:{}
+    //must create this object
+    $scope.Mycharts = {
+      chartplaceholder1:{},
+      chartplaceholder2:{},
+      chartplaceholder3:{}
     };
-    $scope.chartplaceholder2 = {
-      // data:{}
-    };
-    $scope.chartplaceholder3 = {
-      // data:{}
-    };
+
+
 
     $scope.update1 = function () {
       $scope.chartplaceholder1 = {
