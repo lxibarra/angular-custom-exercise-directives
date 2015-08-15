@@ -14,15 +14,16 @@
       <enable-charts data-mappings="Mycharts"></enable-charts>
     </spread-sheet>
   </div>
+
   <div class="col-xs-6">
+      <highchart chart-data="Mycharts.chartplaceholder1" ng-transclude="transclude">
+          <div class="chartHolder">
+              <h2>Chart placeholder #1</h2>
+          </div>
+      </highchart>
     <highchart chart-data="Mycharts.chartplaceholder2" ng-transclude="transclude">
       <div class="chartHolder">
         <h2>Chart placeholder #2</h2>
-      </div>
-    </highchart>
-    <highchart chart-data="Mycharts.chartplaceholder1" ng-transclude="transclude">
-      <div class="chartHolder">
-        <h2>Chart placeholder #1</h2>
       </div>
     </highchart>
     <highchart chart-data="Mycharts.chartplaceholder3" ng-transclude="transclude">
