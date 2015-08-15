@@ -22,12 +22,14 @@ angular.module('highcharts')
 
         var listeners = attrs.mappings.split(',');
 
+
+
         //generate context menu for handsome table and add event listener for option selected
         var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
           //listener will be updated each time the modal is opened
           scope.listener = listener;
+
           var formData = cellReader(ctrl.Hansometable);
-          console.log(formData);
           var jquery_maps = formMapper(formData.export, option);
 
           Object.keys(jquery_maps).forEach(function(prop) {
@@ -45,6 +47,8 @@ angular.module('highcharts')
           //we also have to create a way to watch for changes on the spreadsheet
         });
 
+
+
         ctrl.Handsometable.destroy();
         ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
         ctrl.Hansometable.updateSettings(ContextMenu);
@@ -52,7 +56,8 @@ angular.module('highcharts')
       ,
       controller: function ($scope) {
         $scope.submit = function (model) {
-          $scope[this.listener]['data'] = forSignatures.getChart(model);
+
+          $scope[$scope.listener]['data'] = forSignatures.getChart(model);
         };
       }
 

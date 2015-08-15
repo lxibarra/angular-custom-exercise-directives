@@ -10,13 +10,16 @@
 angular.module('highcharts', [])
   .directive('highchart', function () {
     return {
-      template: '<div style="min-width:100%; min-height:150px; border:dashed 2px #3c3c3c"></div>',
+      template: '<div></div>',
       restrict: 'E',
       scope:{
         chartData:'=chartData'
       },
+      transclude:true,
       link: function postLink(scope, element, attrs) {
-        //we can add here chartData.data. to remove it from the markup
+
+          //scope.chartData = scope.chartData||{};
+
           element.highcharts(scope.chartData.data);
 
           scope.$watch('chartData.data', function () {

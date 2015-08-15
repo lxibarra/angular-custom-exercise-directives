@@ -31,7 +31,6 @@ angular.module('ngcSpreadSheet', [])
         });
 
         scope.conf.afterChange = function (change, source) {
-          console.log(change, source);
           if (change) {
             try {
               var row = change[0][0],

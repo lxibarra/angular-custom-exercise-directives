@@ -81,3 +81,19 @@ body {
     border-bottom: 0;
   }
 }
+
+
+.chartHolder {
+  min-width:100%;
+  min-height:150px;
+  border:dashed 2px #CCCCCC;
+  position: relative;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.chartHolder * {
+  margin-top:20px;
+  margin-bottom: 20px;
+}
+

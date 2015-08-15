@@ -14,7 +14,6 @@ angular.module('highcharts')
       var mapper = {};
       if(option === 'bar') {
         mapper['[name="xAxis.categories"]'] = data.xAxis;
-        console.log(data.series);
         data.series.forEach(function(item, index) {
           mapper['[name="Series.name"]:eq(' + index + ')'] = item.name;
           mapper['[name="Series.data"]:eq(' + index + ')'] = item.data.join(',');
