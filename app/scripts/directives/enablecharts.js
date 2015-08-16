@@ -17,7 +17,7 @@ angular.module('highcharts')
       link: function (scope, element, attrs, ctrl) {
         var modalHolder = attrs.modalHolder || 'body';
         //compile forms and put them at the body for later use.
-        $(modalHolder).append(formGenerator('bar', scope));
+        jQuery(modalHolder).append(formGenerator('bar', scope));
         //$(modalHolder).append(formGenerator('pie', scope));
         //$(modalHolder).append(formGenerator('line', scope));
 
@@ -29,6 +29,8 @@ angular.module('highcharts')
         var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
           //listener will be updated each time the modal is opened
           scope.listener = listener;
+
+          $('[data-type=chart_modal] form')[0].reset();
 
           var formData = cellReader(ctrl.Hansometable);
           var jquery_maps = formMapper(formData.export, option);
@@ -50,16 +52,13 @@ angular.module('highcharts')
         ctrl.Handsometable.destroy();
         ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
         ctrl.Hansometable.updateSettings(ContextMenu);
-      }
-      ,
+      },
       controller: function ($scope) {
         $scope.submit = function (model) {
-          $scope.mappings[this.listener]['data'] = forSignatures.getChart(model);
+          $scope.mappings[this.listener].data = forSignatures.getChart(model);
 
         };
       }
-
     }
   });
-
 

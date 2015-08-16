@@ -16,10 +16,7 @@ angular.module('highcharts', [])
         chartData:'=chartData'
       },
       transclude:true,
-      link: function postLink(scope, element, attrs) {
-
-          //scope.chartData = scope.chartData||{};
-
+      link: function postLink(scope, element) {
           element.highcharts(scope.chartData.data);
 
           scope.$watch('chartData.data', function () {

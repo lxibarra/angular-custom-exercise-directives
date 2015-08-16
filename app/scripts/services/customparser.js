@@ -8,7 +8,7 @@
  * Service in the angularExamApp.
  */
 angular.module('ngcSpreadSheet')
-  .service('CustomParser', function () {
+  .service('customParser', function () {
     // AngularJS will instantiate a singleton by calling "new" on this function
     var regex = {
       numbers: /^\d+$/,
@@ -24,5 +24,5 @@ angular.module('ngcSpreadSheet')
       }
 
       return value;
-    }
+    };
   });

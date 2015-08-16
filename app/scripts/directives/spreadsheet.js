@@ -13,7 +13,7 @@
  * a selection of 3 types of grapsh will appear. After selection user should select labels and data range.
  */
 angular.module('ngcSpreadSheet', [])
-  .directive('spreadSheet', function (CustomParser) {
+  .directive('spreadSheet', function (customParser) {
 
     return {
       restrict: 'E',
@@ -27,10 +27,10 @@ angular.module('ngcSpreadSheet', [])
 
         scope.conf = {};
         Object.keys(attrs.$attr).forEach(function (p) {
-          scope.conf[p] = CustomParser(attrs[p]);
+          scope.conf[p] = customParser(attrs[p]);
         });
 
-        scope.conf.afterChange = function (change, source) {
+        scope.conf.afterChange = function (change) {
           if (change) {
             try {
               var row = change[0][0],
@@ -55,7 +55,7 @@ angular.module('ngcSpreadSheet', [])
 
 
       },
-      controller: function ($scope) {
+      controller: function () {
 
       }
 

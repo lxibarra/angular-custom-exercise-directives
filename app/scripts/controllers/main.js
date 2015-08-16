@@ -1,5 +1,4 @@
 'use strict';
-var caca;
 /**
  * @ngdoc function
  * @name angularExamApp.controller:MainCtrl

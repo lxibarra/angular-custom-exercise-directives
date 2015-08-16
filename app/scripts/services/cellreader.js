@@ -45,7 +45,7 @@ angular.module('highcharts')
             var column = 1;
             while (column <= row.length) {
               if(row[column]) {
-                  row[column] = row[column].toString().trim()
+                  row[column] = row[column].toString().trim();
                   exported.series[column - 1].data.push(row[column].toString().trim());
               }
               column++;
@@ -57,6 +57,6 @@ angular.module('highcharts')
       return {
         export:exported
       };
-    }
+    };
   })
 ;

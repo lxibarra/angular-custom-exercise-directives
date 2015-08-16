@@ -21,5 +21,5 @@ angular.module('formGeneration', [])
 
     return function(type, scope) {
       return formTemplates[type](scope);
-    }
+    };
   });

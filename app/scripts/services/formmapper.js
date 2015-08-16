@@ -22,5 +22,5 @@ angular.module('highcharts')
 
 
       return mapper;
-    }
+    };
   });
