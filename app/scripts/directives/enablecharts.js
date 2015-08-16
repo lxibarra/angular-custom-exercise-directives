@@ -15,43 +15,44 @@ angular.module('highcharts')
         mappings:'=mappings'
       },
       link: function (scope, element, attrs, ctrl) {
-        var modalHolder = attrs.modalHolder || 'body';
-        //compile forms and put them at the body for later use.
-        jQuery(modalHolder).append(formGenerator('bar', scope));
-        //$(modalHolder).append(formGenerator('pie', scope));
-        //$(modalHolder).append(formGenerator('line', scope));
+        (function($) {
+          var modalHolder = attrs.modalHolder || 'body';
+          //compile forms and put them at the body for later use.
+          $(modalHolder).append(formGenerator('bar', scope));
+          //$(modalHolder).append(formGenerator('pie', scope));
+          //$(modalHolder).append(formGenerator('line', scope));
 
-        //create an array of the variables we have to update on the scope.
+          //create an array of the variables we have to update on the scope.
 
-        var listeners = Object.keys(scope.mappings);
+          var listeners = Object.keys(scope.mappings);
 
-        //generate context menu for handsome table and add event listener for option selected
-        var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
-          //listener will be updated each time the modal is opened
-          scope.listener = listener;
+          //generate context menu for handsome table and add event listener for option selected
+          var ContextMenu = forSignatures.getContextMenu(this, listeners, function (option, listener) {
+            //listener will be updated each time the modal is opened
+            scope.listener = listener;
 
-          $('[data-type=chart_modal] form')[0].reset();
+            $('[data-type=chart_modal] form')[0].reset();
 
-          var formData = cellReader(ctrl.Hansometable);
-          var jquery_maps = formMapper(formData.export, option);
+            var formData = cellReader(ctrl.Hansometable);
+            var jquery_maps = formMapper(formData.export, option);
 
-          Object.keys(jquery_maps).forEach(function(prop) {
-                $(prop).val(jquery_maps[prop]);
-                $(prop).trigger('input');
-                $(prop).trigger('change');
+            Object.keys(jquery_maps).forEach(function (prop) {
+              $(prop).val(jquery_maps[prop]);
+              $(prop).trigger('input');
+              $(prop).trigger('change');
+            });
+
+            $('[data-type=chart_modal]').modal();
+            //we could regenerate the forms here in order to make data dynamic currently only 3 data sets are possible
+
+
           });
 
-          $('[data-type=chart_modal]').modal();
-          //we could regenerate the forms here in order to make data dynamic currently only 3 data sets are possible
 
-
-        });
-
-
-
-        ctrl.Handsometable.destroy();
-        ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
-        ctrl.Hansometable.updateSettings(ContextMenu);
+          ctrl.Handsometable.destroy();
+          ctrl.Hansometable = new Handsontable(ctrl.DOMElement, ctrl.conf);
+          ctrl.Hansometable.updateSettings(ContextMenu);
+        })(jQuery);
       },
       controller: function ($scope) {
         $scope.submit = function (model) {
@@ -59,6 +60,6 @@ angular.module('highcharts')
 
         };
       }
-    }
+    };
   });
 
