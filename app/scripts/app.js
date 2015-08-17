@@ -19,7 +19,8 @@ angular
     'ngTouch',
     'ngcSpreadSheet',
     'highcharts',
-    'formGeneration'
+    'formGeneration',
+    'bootstrapForms'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -28,10 +29,10 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'register'
       })
       .otherwise({
         redirectTo: '/'
