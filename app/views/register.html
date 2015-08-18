@@ -1,8 +1,7 @@
-<form
-  bootstrap-forms
-  novalidate
-  name="myForm"
-  model="dataSource"
+<bootstrap-forms model="dataSource" novalidate name="myForm" ng-submit="save(myForm)">
+  <div ng-transclude="transclude">
+    <button class="btn btn-info">Click</button>
+  </div>
 
-  >
-</form>
+</bootstrap-forms>
+

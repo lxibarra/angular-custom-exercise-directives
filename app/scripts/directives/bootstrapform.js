@@ -9,11 +9,11 @@
 angular.module('bootstrapForms', [])
   .directive('bootstrapForms', function (bFormElements, $compile) {
     return {
-      restrict: 'A',
+      restrict: 'E',
+      template:'<form></form>',
       replace:true,
       transclude:true,
       link:function(scope, element, attrs) {
-        console.log(scope[attrs.model]);
         element.append($compile(bFormElements(scope[attrs.model], attrs.name||'form'))(scope));
       }
     };

@@ -84,7 +84,6 @@ angular.module('bootstrapForms')
       ngForm.append(input);
       if (field.validation) {
         field.validation.forEach(function (rule) {
-          console.log(rule, Object.keys(rule)[0]);
           if (typeof _context[Object.keys(rule)[0]] !== 'undefined') {
             _context[Object.keys(rule)[0]](rule, ngForm, field);
           }
@@ -159,7 +158,6 @@ angular.module('bootstrapForms')
     };
 
     function createElements(form, formName) {
-
       var elements = angular.element('<div/>');
       form.forEach(function (elem) {
         elements.append(_context[elem.type](elem, formName));
