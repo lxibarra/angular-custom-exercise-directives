@@ -157,10 +157,10 @@ angular.module('bootstrapForms')
       ngForm.append(errorSpan);
     };
 
-    function createElements(form, formName) {
-      var elements = angular.element('<div/>');
+    function createElements(form, attrs) {
+      var elements = angular.element('<form/>');
       form.forEach(function (elem) {
-        elements.append(_context[elem.type](elem, formName));
+        elements.append(_context[elem.type](elem));
       });
 
       return elements;

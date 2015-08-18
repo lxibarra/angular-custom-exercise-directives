@@ -11,9 +11,13 @@ angular.module('angularExamApp')
   .controller('RegisterCtrl', function ($scope) {
 
     $scope.save = function (form) {
-        console.log(form);
+
       if(form.$valid) {
-          console.log(form.name, form.email, form.age, form.signUpDate);
+
+          console.log($scope.name, $scope.email, $scope.age, $scope.signUpDate);
+      }
+      else {
+        console.log('Invalid');
       }
     };
 
@@ -37,7 +41,7 @@ angular.module('angularExamApp')
         label:'Email:',
         model:'email',
         type:'String',
-        htmlType:'text',
+        htmlType:'email',
         placeholder:'your business or personal email',
         validation:[
           {

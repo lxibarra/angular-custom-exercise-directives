@@ -10,11 +10,17 @@ angular.module('bootstrapForms', [])
   .directive('bootstrapForms', function (bFormElements, $compile) {
     return {
       restrict: 'E',
-      template:'<form></form>',
       replace:true,
       transclude:true,
-      link:function(scope, element, attrs) {
-        element.append($compile(bFormElements(scope[attrs.model], attrs.name||'form'))(scope));
+      template:'<form></form>',
+      link:function(scope, element, attrs, ctrl, transclude) {
+        var compiled = $compile(element.append(bFormElements(scope[attrs.model], attrs).children()))(scope);
+        element.append(compiled);
+        transclude(function(clone) {
+          element.append(clone);
+        });
+
+
       }
     };
   });
