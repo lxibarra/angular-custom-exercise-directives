@@ -7,47 +7,98 @@
  * # RegisterCtrl
  * Controller of the angularExamApp
  */
-angular.module('angularExamApp').value('Form1', [{
-  label:'Name:',
-  model:'name',
-  type:'String',
-  required:true
-}])
+angular.module('angularExamApp')
   .controller('RegisterCtrl', function ($scope) {
-    /*
+
+    $scope.save = function (form) {
+      console.log(form);
+    };
+
     $scope.dataSource = [
-        {
-          label:'Name:',
-          model:'name',
-          type:'String',
-          required:true
-        },
+      {
+        label: 'Name:',
+        model: 'name',
+        type: 'String',
+        htmlType: 'text',
+        placeholder: 'type here...',
+        validation: [
+          {
+            required: {
+              required: true,
+              errorMessage: 'Name is mandatory'
+            }
+          }
+        ]
+      },
+      {
+        label:'Email:',
+        model:'email',
+        type:'String',
+        htmlType:'text',
+        placeholder:'your business or personal email',
+        validation:[
+          {
+            required:{
+              required:true,
+              errorMessage:'Please provide a valid email'
+            }
+          },
+          {
+            regex: {
+              expression:'email',
+              errorMessage:'Invalid email format'
+            }
+          }
 
-        {
-          label:'Date of birth:',
-          model:'birth',
-          type:'Date',
-          required:true
-        },
-        {
-          label:'Income:',
-          model:'income',
-          type:'Number',
-          required:true
-        },
-        {
-          label:'IRS Code',
-          model:'irs',
-          type:'String',
-          format:/^[a-z]{3}\d{3}$/i
-        },
-        {
-          label:'Save',
-          type:'Button'
-        }
-      ];*/
+        ]
+      },
+      {
+        label: 'Age:',
+        model: 'age',
+        type: 'Number',
+        htmlType: 'number',
+        placeholder: 'Type age here',
+        validation: [
+          {
+            required: {
+              required: true,
+              errorMessage: 'Please provide your age'
+            }
+          },
+          {
 
-      $scope.showMessage = function() {
-        console.log($scope.name);
+            range: {
+              min: 10,
+              max: 60,
+              errorMessage: {
+                min: 'No children under 10 allowed',
+                max: 'No Seniors allowed, possible hart attack'
+              }
+            }
+          }
+        ]
+      },
+      {
+        label:'sign up date:',
+        model:'signUpDate',
+        type:'Date',
+        placeholder:'type age here',
+        errorMessage:'Invalid date value',
+        validation:[
+          {
+            required:{
+              required:true,
+              errorMessage:'Please provide a signup date'
+            }
+          }
+        ]
       }
+
+
+    ];
+
+
+    $scope.showMessage = function () {
+      console.log($scope.name);
+    }
   });

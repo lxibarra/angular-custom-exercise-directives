@@ -7,17 +7,14 @@
  * # bootstrapForm
  */
 angular.module('bootstrapForms', [])
-  .directive('bootstrapForms', function (bFormElements, $injector) {
+  .directive('bootstrapForms', function (bFormElements, $compile) {
     return {
-      template: '<form novalidate></form>',
-      restrict: 'E',
+      restrict: 'A',
       replace:true,
-      compile: function compile(element, attrs) {
-        var value1 = $injector.get(attrs.formModel);
-
-        element.append(bFormElements(value1, attrs.name||'form'));
-
-
+      transclude:true,
+      link:function(scope, element, attrs) {
+        console.log(scope[attrs.model]);
+        element.append($compile(bFormElements(scope[attrs.model], attrs.name||'form'))(scope));
       }
     };
   });
