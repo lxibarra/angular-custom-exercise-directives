@@ -11,14 +11,14 @@ angular.module('angularExamApp')
   .controller('RegisterCtrl', function ($scope) {
 
     $scope.save = function (form) {
-      console.log(form);
-      /*if(form.$valid) {
+
+      if(form.$valid) {
 
           console.log($scope.user);
       }
       else {
-        console.log('Invalid');
-      }*/
+        console.log('Invalid Form');
+      }
     };
 
     $scope.dataSource = [
