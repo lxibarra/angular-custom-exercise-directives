@@ -97,3 +97,14 @@ body {
   margin-bottom: 20px;
 }
 
+
+.blackout {
+  color:navy;
+  font-weight: bolder;
+}
+
+.bl .blackout {
+  color: #ffffff;
+  font-weight: bolder;
+}
+
