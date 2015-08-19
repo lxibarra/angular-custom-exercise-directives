@@ -34,6 +34,11 @@ angular
         controller: 'RegisterCtrl',
         controllerAs: 'register'
       })
+      .when('/blackout', {
+        templateUrl: 'views/blackout.html',
+        controller: 'BlackoutCtrl',
+        controllerAs: 'about'
+      })
       .otherwise({
         redirectTo: '/'
       });
