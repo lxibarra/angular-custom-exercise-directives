@@ -21,6 +21,12 @@ angular.module('angularExamApp')
       }
     };
 
+    $scope.clear = function(form) {
+        $scope.user = {};
+        form.$setPristine();
+
+    };
+
     $scope.dataSource = [
       {
         label: 'Name:',
