@@ -11,20 +11,21 @@ angular.module('angularExamApp')
   .controller('RegisterCtrl', function ($scope) {
 
     $scope.save = function (form) {
+      console.log(form);
+      /*if(form.$valid) {
 
-      if(form.$valid) {
-
-          console.log($scope.name, $scope.email, $scope.age, $scope.signUpDate);
+          console.log($scope.user);
       }
       else {
         console.log('Invalid');
-      }
+      }*/
     };
 
     $scope.dataSource = [
       {
         label: 'Name:',
-        model: 'name',
+        model: 'user.name',
+        name:'name',
         type: 'String',
         htmlType: 'text',
         placeholder: 'type here...',
@@ -39,7 +40,8 @@ angular.module('angularExamApp')
       },
       {
         label:'Email:',
-        model:'email',
+        model:'user.email',
+        name:'email',
         type:'String',
         htmlType:'email',
         placeholder:'your business or personal email',
@@ -61,7 +63,8 @@ angular.module('angularExamApp')
       },
       {
         label: 'Age:',
-        model: 'age',
+        model: 'user.age',
+        name:'age',
         type: 'Number',
         htmlType: 'number',
         placeholder: 'Type age here',
@@ -87,7 +90,8 @@ angular.module('angularExamApp')
       },
       {
         label:'sign up date:',
-        model:'signUpDate',
+        model:'user.signUpDate',
+        name:'signUpDate',
         type:'Date',
         placeholder:'type age here',
         errorMessage:'Invalid date value',

@@ -14,8 +14,9 @@ angular.module('bootstrapForms', [])
       transclude:true,
       template:'<form></form>',
       link:function(scope, element, attrs, ctrl, transclude) {
-        var compiled = $compile(element.append(bFormElements(scope[attrs.model], attrs).children()))(scope);
+        var compiled = $compile(element.append(bFormElements(scope[attrs.model], attrs.name).children()))(scope);
         element.append(compiled);
+
         transclude(function(clone) {
           element.append(clone);
         });

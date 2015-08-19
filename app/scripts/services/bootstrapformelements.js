@@ -13,7 +13,9 @@
  *
  *  Example:
  *  HTML
- *  <form bootstrap-forms novalidate name="myForm" model="dataSource"></form>
+ *  <form bootstrap-forms novalidate name="myForm" model="dataSource">
+ *      your form buttons can go here thanks to transclusion
+ *  </form>
  *
  *  pass the dataSource from the controller $scope as follows:
  *
@@ -21,6 +23,7 @@
      {
         label: 'Name:',
         model: 'name',                                scope variable name
+        name: 'html element name'
         type: 'String',                               String|Date|Number
         htmlType: 'text',                             Any HTML5 element type
         placeholder: 'type here...',                  optional
@@ -70,13 +73,19 @@ angular.module('bootstrapForms')
      * Creates all available formn types
      */
     this.String = function (field, formName) {
+
+      field.name = field.name||field.model;
       var div = angular.element('<div/>').addClass('form-group');
-      var ngForm = angular.element('<ng-form name="' + field.model + 'FieldForm"/>');
-      var label = angular.element('<label/>').html(field.label).attr('for', field.model);
+      //div.attr('ng-class', "{ 'has-success has-feedback' : " + formName + "." + field.name + ".$valid, 'has-error has-feedback' : " + formName + "." + field.name + ".$invalid }");
+      var ngForm = angular.element('<ng-form name="' + field.name + 'FieldForm"/>');
+      //ngForm.attr('ng-class', "{ 'has-success has-feedback' : " + field.name + "FieldForm." + field.name + ".$valid, 'has-error has-feedback' : " + field.name + "FieldForm." + field.name + ".$invalid }");
+      ngForm.attr('ng-class', "{ 'has-success has-feedback' : " + field.name + "FieldForm." + field.name + ".$valid, 'has-error has-feedback' : " + field.name + "FieldForm." + field.name + ".$invalid }");
+
+      var label = angular.element('<label/>').html(field.label).attr('for', field.name);
       var input = angular.element('<input/>')
         .attr('type', field.htmlType || 'text')
         .addClass('form-control')
-        .attr('name', field.model)
+        .attr('name', field.name)
         .attr('ng-model', field.model)
         .attr('placeholder', field.placeholder || '');
 
@@ -96,14 +105,14 @@ angular.module('bootstrapForms')
     this.Date = function (field, formName) {
       field.htmlType = field.htmlType || 'date';
       var dateElement = _context.String(field, formName);
-      _context.errorSpan(dateElement.find('ng-form'), field.errorMessage || 'Invalid date', field.model, 'date');
+      _context.errorSpan(dateElement.find('ng-form'), field.errorMessage || 'Invalid date', field.name, 'date');
       return dateElement;
     };
 
     this.Number = function (field, formName) {
       field.htmlType = field.htmlType || 'number';
       var numberElement = _context.String(field, formName);
-      _context.errorSpan(numberElement.find('ng-form'), field.errorMessage || 'Invalid number', field.model, 'number');
+      _context.errorSpan(numberElement.find('ng-form'), field.errorMessage || 'Invalid number', field.name, 'number');
       return numberElement;
     };
 
@@ -115,7 +124,7 @@ angular.module('bootstrapForms')
       if (rule.required.required) {
         ngForm.find('input').attr('required', '');
         var errorMessage = rule.required.errorMessage || 'Field ' + field.model + ' is required';
-        _context.errorSpan(ngForm, errorMessage, field.model, 'required');
+        _context.errorSpan(ngForm, errorMessage, field.name, 'required');
       }
     };
 
@@ -126,7 +135,7 @@ angular.module('bootstrapForms')
 
       ngForm.find('input').attr('pattern', _regExpression);
       var errorMessage = rule.regex.errorMessage || 'Field ' + field.model + ' has an invalid pattern.';
-      _context.errorSpan(ngForm, errorMessage, field.model, 'pattern');
+      _context.errorSpan(ngForm, errorMessage, field.name, 'pattern');
     };
 
     this.range = function (rule, ngForm, field) {
@@ -136,7 +145,7 @@ angular.module('bootstrapForms')
         var errorMessage = typeof rule.range.errorMessage === 'string' ? rule.range.errorMessage :
           ( typeof rule.range.errorMessage.min === 'string' ? rule.range.errorMessage.min : 'Number cannot be lower than ' + rule.range.min  );
 
-        _context.errorSpan(ngForm, errorMessage, field.model, 'min');
+        _context.errorSpan(ngForm, errorMessage, field.name, 'min');
       }
 
       if (typeof rule.range.max !== 'undefined' && rule.range.max.toString().match(customExpressions.number)) {
@@ -145,22 +154,22 @@ angular.module('bootstrapForms')
         var errorMessage = typeof rule.range.errorMessage === 'string' ? rule.range.errorMessage :
           ( typeof rule.range.errorMessage.max === 'string' ? rule.range.errorMessage.max : 'Number cannot be lower than ' + rule.range.max  );
 
-        _context.errorSpan(ngForm, errorMessage, field.model, 'max');
+        _context.errorSpan(ngForm, errorMessage, field.name, 'max');
       }
     };
 
-    this.errorSpan = function (ngForm, errorMessage, model, errorType) {
+    this.errorSpan = function (ngForm, errorMessage, name, errorType) {
       var errorSpan = angular.element('<span/>')
         .addClass('help-block')
-        .attr('ng-show', model + 'FieldForm.' + model + '.$error.' + errorType)
-        .html(errorMessage || 'Field ' + model + ' Error');
+        .attr('ng-show', name + 'FieldForm.' + name + '.$error.' + errorType)
+        .html(errorMessage || 'Field ' + name + ' Error');
       ngForm.append(errorSpan);
     };
 
-    function createElements(form, attrs) {
+    function createElements(form, formName) {
       var elements = angular.element('<form/>');
       form.forEach(function (elem) {
-        elements.append(_context[elem.type](elem));
+        elements.append(_context[elem.type](elem, formName));
       });
 
       return elements;
