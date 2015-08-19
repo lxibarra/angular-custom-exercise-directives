@@ -13,17 +13,18 @@ angular.module('bootstrapForms', [])
       replace:true,
       transclude:true,
       template:'<form></form>',
-      link:function(scope, element, attrs, ctrl, transclude) {
-        var parent = element.parent();
-        parent.html("");
-        var compiled = $compile(element.append(bFormElements(scope[attrs.model], attrs.name).children()))(scope);
+      compile: function(el){
+        el.removeAttr('ng-submit');
+        return function(scope, element, attrs, ctrl, transclude) {
 
-        element.append(compiled);
+          var compiled = $compile(element.append(bFormElements(scope[attrs.model], attrs.name).children()))(scope);
 
-        transclude(function(clone) {
-          element.append(clone);
-        });
-        parent.append(element);
+          element.append(compiled);
+
+          transclude(function(clone) {
+            element.append(clone);
+          });
+        }
       }
     };
   });

@@ -11,7 +11,7 @@ angular.module('angularExamApp')
   .controller('RegisterCtrl', function ($scope) {
 
     $scope.save = function (form) {
-      console.log(form);
+
       if(form.$valid) {
 
           console.log($scope.user);
