@@ -23,6 +23,7 @@ angular
     'bootstrapForms'
   ]).run(function($rootScope, $location){
      $rootScope.location = $location;
+     $rootScope.mongoApiKey = window.mongoApiKey||undefined
   })
   .config(function ($routeProvider) {
     $routeProvider
@@ -40,6 +41,11 @@ angular
         templateUrl: 'views/blackout.html',
         controller: 'BlackoutCtrl',
         controllerAs: 'about'
+      })
+      .when('/notes', {
+        templateUrl: 'views/notes.html',
+        controller: 'NotesCtrl',
+        controllerAs: 'notes'
       })
       .otherwise({
         redirectTo: '/'

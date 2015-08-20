@@ -38,7 +38,7 @@
           <span class="icon-bar"></span>
         </button>
 
-        <a class="navbar-brand" href="#/">Angular + Handsometable</a>
+        <a class="navbar-brand" href="#/">Angular concepts</a>
       </div>
 
       <div class="collapse navbar-collapse" id="js-navbar-collapse">
@@ -47,6 +47,7 @@
           <li ng-class="{ 'active' : location.path() == '/' }"><a href="#/">Spreadsheet</a></li>
           <li ng-class="{ 'active' : location.path() == '/register' }"><a ng-href="#/register">Forms</a></li>
           <li ng-class="{ 'active' : location.path() == '/blackout' }"><a ng-href="#/blackout">Blackout</a></li>
+          <li ng-class="{ 'active' : location.path() == '/notes' }"><a ng-href="#/notes">Notes</a></li>
         </ul>
       </div>
     </div>
@@ -105,8 +106,12 @@
 <script src="scripts/controllers/register.js"></script>
 <script src="scripts/services/bootstrapformelements.js"></script>
 <script src="scripts/directives/blackout.js"></script>
-
+<script src="scripts/controllers/notes.js"></script>
+<script src="scripts/services/mongolab.js"></script>
+<script src="scripts/services/mongoapikey.js"></script>
 <!-- endbuild -->
+<script>
 
+</script>
 </body>
 </html>

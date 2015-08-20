@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="../styles/notes.css"/>
+
+<div class="row">
+  <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="note in dbrecords">
+    <div class="post-it">
+      <button type="button" class="close" aria-label="Close">
+        <span data-action="removeNote"  data-map="note._id.$oid" aria-hidden="true">&times;</span>
+      </button>
+      <button type="button" class="close" >
+        <span data-map="note._id.$oid"  class="glyphicon glyphicon-pencil"></span>
+      </button>
+      <h3 ng-bind="note.title"></h3>
+      <p ng-bind="note.note"></p>
+      <small ng-bind="note.CreatedAt.$date"></small>
+    </div>
+  </div>
+</div>
