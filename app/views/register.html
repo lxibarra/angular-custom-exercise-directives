@@ -1,8 +1,112 @@
-<bootstrap-forms model="dataSource" novalidate name="myForm" ng-submit="save(myForm)">
-  <button class="btn btn-info">Click</button>
-  <input type="reset" ng-click="clear(myForm)"  value="clean" class="btn btn-danger" />
-</bootstrap-forms>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Dynamic form
+        <small>With dynamic validation</small>
+      </h1>
 
+      <bootstrap-forms model="dataSource" novalidate name="myForm" ng-submit="save(myForm)">
+        <button class="btn btn-info">Click</button>
+        <input type="reset" ng-click="clear(myForm)" value="clean" class="btn btn-danger"/>
+      </bootstrap-forms>
+      <hr/>
+      <p>HTML</p>
+      <pre>
+        &lt;bootstrap-forms model=&quot;dataSource&quot; novalidate name=&quot;myForm&quot; ng-submit=&quot;save(myForm)&quot;&gt;
+          &lt;button class=&quot;btn btn-info&quot;&gt;Click&lt;/button&gt;
+          &lt;input type=&quot;reset&quot; ng-click=&quot;clear(myForm)&quot; value=&quot;clean&quot; class=&quot;btn btn-danger&quot;/&gt;
+        &lt;/bootstrap-forms&gt;
+      </pre>
+      <p>Javascript</p>
+      <pre>
+        $scope.dataSource = [
+      {
+        label: 'Name:',
+        model: 'user.name',
+        name:'name',
+        type: 'String',
+        htmlType: 'text',
+        placeholder: 'type here...',
+        validation: [
+          {
+            required: {
+              required: true,
+              errorMessage: 'Name is mandatory'
+            }
+          }
+        ]
+      },
+      {
+        label:'Email:',
+        model:'user.email',
+        name:'email',
+        type:'String',
+        htmlType:'email',
+        placeholder:'your business or personal email',
+        validation:[
+          {
+            required:{
+              required:true,
+              errorMessage:'Please provide a valid email'
+            }
+          },
+          {
+            regex: {
+              expression:'email',
+              errorMessage:'Invalid email format'
+            }
+          }
+
+        ]
+      },
+      {
+        label: 'Age:',
+        model: 'user.age',
+        name:'age',
+        type: 'Number',
+        htmlType: 'number',
+        placeholder: 'Type age here',
+        validation: [
+          {
+            required: {
+              required: true,
+              errorMessage: 'Please provide your age'
+            }
+          },
+          {
+
+            range: {
+              min: 10,
+              max: 60,
+              errorMessage: {
+                min: 'No children under 10 allowed',
+                max: 'No Seniors allowed, possible hart attack'
+              }
+            }
+          }
+        ]
+      },
+      {
+        label:'sign up date:',
+        model:'user.signUpDate',
+        name:'signUpDate',
+        type:'Date',
+        placeholder:'type age here',
+        errorMessage:'Invalid date value',
+        validation:[
+          {
+            required:{
+              required:true,
+              errorMessage:'Please provide a signup date'
+            }
+          }
+        ]
+      }
+    ];
+      </pre>
+    </div>
+  </div>
+</div>
 
 
 

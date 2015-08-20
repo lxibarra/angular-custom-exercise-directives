@@ -21,7 +21,9 @@ angular
     'highcharts',
     'formGeneration',
     'bootstrapForms'
-  ])
+  ]).run(function($rootScope, $location){
+     $rootScope.location = $location;
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
