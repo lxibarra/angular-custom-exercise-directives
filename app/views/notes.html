@@ -3,15 +3,58 @@
 <div class="row">
   <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="note in dbrecords">
     <div class="post-it">
-      <button type="button" class="close" aria-label="Close">
+      <button type="button" class="close" ng-click="deleteNote(note)" aria-label="Close">
         <span data-action="removeNote"  data-map="note._id.$oid" aria-hidden="true">&times;</span>
       </button>
-      <button type="button" class="close" >
+      <button type="button" class="close" ng-click="openEdit(note)">
         <span data-map="note._id.$oid"  class="glyphicon glyphicon-pencil"></span>
       </button>
       <h3 ng-bind="note.title"></h3>
       <p ng-bind="note.note"></p>
-      <small ng-bind="note.CreatedAt.$date"></small>
+      <small ng-bind="note.CreatedAt.$date | date:'EEEE, MMMM d, y - h:mm a'"></small>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-sm-6 col-xs-12">
+          <button class="btn btn-info btn-lg" ng-click="addnote()">Create Note</button>
+        </div>
+        <div class="col-md-10 col-sm-6 col-xs-12">
+          <div ng-show="bgworking" class="progress preloader">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="newNoteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="cancelModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" ng-bind="modalTitle"></h4>
+      </div>
+      <div class="modal-body">
+        <form name="newNoteForm">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" ng-model="currentNote.title" name="title" placeholder="Enter Title">
+          </div>
+          <div class="form-group">
+            <label>Note</label>
+            <textarea class="form-control" ng-model="currentNote.note" name="note" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancelModal()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" id="newNotebtn">Save changes</button>
+      </div>
     </div>
   </div>
 </div>

@@ -8,7 +8,9 @@
  * Service in the angularExamApp.
  */
 angular.module('angularExamApp').factory('Notes', function ($resource, mongoApiKey) {
-    return $resource('https://api.mongolab.com/api/1/databases/mynotesapp/collections/notes?apiKey=' + mongoApiKey);
+    return $resource('https://api.mongolab.com/api/1/databases/mynotesapp/collections/notes/:id?apiKey=' + mongoApiKey, {
+      id:'@recordId'
+    });
 }).service('mongolab', function (Notes) {
   // AngularJS will instantiate a singleton by calling "new" on this function
 
@@ -16,7 +18,16 @@ angular.module('angularExamApp').factory('Notes', function ($resource, mongoApiK
     return Notes.query().$promise;
   }
 
+  function save(record) {
+    return Notes.save(record).$promise;
+  }
+
+  function newResource() {
+    return new Notes();
+  }
   return {
-    getNotes: getAll
+    getNotes: getAll,
+    saveNote: save,
+    New:newResource
   };
 });

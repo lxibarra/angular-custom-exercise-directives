@@ -23,7 +23,6 @@ angular
     'bootstrapForms'
   ]).run(function($rootScope, $location){
      $rootScope.location = $location;
-     $rootScope.mongoApiKey = window.mongoApiKey||undefined
   })
   .config(function ($routeProvider) {
     $routeProvider
