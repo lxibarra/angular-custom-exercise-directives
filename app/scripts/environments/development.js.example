@@ -1,0 +1,8 @@
+/** This settings are just for testing be careful when building actual values
+ * will be copied to the minified files.
+ * @type {{mongoApiKey: string}}
+ */
+
+var devValues = {
+  mongoApiKey:'Your mongolab API here'
+};

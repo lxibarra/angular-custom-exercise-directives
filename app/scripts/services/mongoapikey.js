@@ -8,4 +8,4 @@
  * Value in the angularExamApp.
  */
 angular.module('angularExamApp')
-  .value('mongoApiKey', 'your_test_api_key');
+  .value('mongoApiKey', window.devValues.mongoApiKey||'please_input_your_api_key');
