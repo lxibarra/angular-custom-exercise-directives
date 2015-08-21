@@ -8,4 +8,4 @@
  * Value in the angularExamApp.
  */
 angular.module('angularExamApp')
-  .value('mongoApiKey', 'Your own mongolab api key');
+  .value('mongoApiKey', 'your_test_api_key');
