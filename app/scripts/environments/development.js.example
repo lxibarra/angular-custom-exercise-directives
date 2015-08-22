@@ -4,5 +4,13 @@
  */
 
 var devValues = {
-  mongoApiKey:'Your mongolab API here'
+  mongoApiKey:'your_mongolab_api_here',
+  flicker:{
+        key:'your_public_key',
+        secret:'your_secret_key'
+  },
+  imgur:{
+    clientId:'648c565b0ba80c5',
+    clientSecret:'c28ac6ba22a2dafa6b8f91b1447d3e779e9bd189'
+  }
 };

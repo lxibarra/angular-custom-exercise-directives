@@ -46,6 +46,11 @@ angular
         controller: 'NotesCtrl',
         controllerAs: 'notes'
       })
+      .when('/endlesscroll', {
+        templateUrl: 'views/endlesscroll.html',
+        controller: 'EndlesscrollCtrl',
+        controllerAs: 'endlesscroll'
+      })
       .otherwise({
         redirectTo: '/'
       });
