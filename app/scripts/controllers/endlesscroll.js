@@ -10,8 +10,13 @@
 angular.module('angularExamApp')
   .controller('EndlesscrollCtrl', function (imageProvider) {
 
-
+      //we pre inject service dependencies
       imageProvider.set(['imgur']);
-      imageProvider.get();
+
+      var promise = imageProvider.get('imgur', undefined, undefined, 1, 10);
+      promise.then(function(data) {
+          //we can manipulate dom now
+        console.log(data);
+      });
 
   });

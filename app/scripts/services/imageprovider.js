@@ -14,58 +14,124 @@ angular.module('angularExamApp')
        * Ideally all maps implement the same fields
        * @type {{imgur: {property: {data: string}, fields: *[]}}}
        */
-        providerMaps = {
-            imgur: {
-              getArray: function(data) {
-                return data.data;
-              },
-              fields:[
-                { id:'id' },
-                { title:'title' },
-                { width:'width' },
-                { height:'height' },
-                { is_group:'is_album' },
-                { url:'link' },
-                { mime:'type' }
-              ]
+      providerMaps = {
+        imgur: {
+          getArray: function (data) {
+            return data.data.data;
+          },
+          fields: {
+            id: 'id',
+            title: 'title',
+            width: 'width',
+            height: 'height',
+            is_album: 'is_group',
+            link: 'url',
+            type: 'mime'
+          },
+          pagingSupported: function (url) {
+            var supported = true;
+            var unsupported = [
+              'gallery/hot/viral'
+            ];
+
+            for (var i = 0, top = unsupported.length; i < top; i++) {
+              if (url.match(unsupported[i])) {
+                supported = false;
+                break;
+              }
             }
 
-        };
+            return supported;
+          }
+        }
+      };
 
-    function mapObject(data, serviceName) {
-      // i was debuggin this line
+    function getBounds(arrlength, page, perPage) {
+      var upperBound, lowerBound;
+      if (typeof perPage === 'number' && typeof page === 'number') {
+        if (page <= 1) {
+          lowerBound = 0;
+        } else {
+          lowerBound = perPage * page;
+        }
 
-      var collection = providerMaps[serviceName].getArray(data);
-      console.log(collection);
-      /*console.log(data);
-      console.log(data.data[providerMaps[serviceName]]);
-      var collection = data[providerMaps[serviceName].property];
-      console.log(collection);*/
+        if (lowerBound > arrlength) {
+          lowerBound = arrlength;
+        }
 
+        upperBound = lowerBound + perPage;
+
+        if (upperBound > arrlength) {
+          upperBound = arrlength;
+        }
+      } else {
+        lowerBound = 0;
+        upperBound = arrlength;
+      }
+
+      return {
+        lowerBound: lowerBound,
+        upperBound: upperBound
+      }
     }
 
+    function mapFields(_objectMap, arr) {
+      var fields = Object.keys(_objectMap);
+      var newOne = [];
+      for(var r = 0, top = arr.length; r<top; r++) {
+        var obj = {};
+        for(var p = 0, ftop = fields.length; p<ftop; p++) {
+          obj[_objectMap[fields[p]]] = arr[0][fields[p]];
+        }
+        newOne.push(obj);
+      }
+      return newOne;
+    }
+
+    function mapObject(data, serviceName, page, perPage) {
+      var collection = providerMaps[serviceName].getArray(data),
+          result = [];
+      if (collection.length === 0) {
+        return result;
+      } else {
+        if (providerMaps[serviceName].pagingSupported(data.config.url) === true) {
+          result = mapFields(providerMaps[serviceName].fields, collection);
+        } else {
+          var pager = getBounds(collection.length, page, perPage);
+          result = mapFields(providerMaps[serviceName].fields, collection.slice(pager.lowerBound, pager.upperBound))
+        }
+
+        return result;
+      }
+    }
+
+    //pre injection of services will allow the app to work faster
     function injectDependencies(dependencies) {
       dependencies.forEach(function (d) {
         providers[d] = $injector.get(d);
       });
     }
 
-    function getImages(path, queryString, page, perPage) {
+    function getImages(service, path, queryString, page, perPage) {
 
-      Object.keys(providers).forEach(function(p) {
-        providers[p].promise = providers[p].get();
+      if(typeof providers[service] === ' undefined') {
+        providers[service] = $injector.get(service);
+      }
 
-        providers[p].promise.then(function(data) {
-          mapObject(data, p);
-        });
+      var promise = new Promise(function(resolve, reject) {
+          providers[service].get(path, queryString, page, perPage).then(function (data) {
+            resolve(mapObject(data, service, page, perPage));
+          }, function() {
+            reject('Unable to fetch data');
+          });
       });
 
-
+      return promise;
     }
 
     return {
-      set:injectDependencies,
-      get:getImages
+      set: injectDependencies,
+      get: getImages
     }
 
   });
