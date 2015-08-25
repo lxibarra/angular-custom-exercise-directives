@@ -31,7 +31,8 @@ angular.module('angularExamApp')
           pagingSupported: function (url) {
             var supported = true;
             var unsupported = [
-              'gallery/hot/viral'
+              'gallery/hot/viral',
+             // 'gallery/top/viral'
             ];
 
             for (var i = 0, top = unsupported.length; i < top; i++) {
@@ -100,7 +101,6 @@ angular.module('angularExamApp')
           var pager = getBounds(collection.length, page, perPage);
           //console.log(collection.slice(pager.lowerBound, pager.upperBound));
           result = mapFields(providerMaps[serviceName].fields, collection.slice(pager.lowerBound, pager.upperBound));
-          console.log(result);
         }
 
         return result;
