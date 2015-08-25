@@ -81,7 +81,7 @@ angular.module('angularExamApp')
       for(var r = 0, top = arr.length; r<top; r++) {
         var obj = {};
         for(var p = 0, ftop = fields.length; p<ftop; p++) {
-          obj[_objectMap[fields[p]]] = arr[0][fields[p]];
+          obj[_objectMap[fields[p]]] = arr[r][fields[p]];
         }
         newOne.push(obj);
       }
@@ -98,7 +98,9 @@ angular.module('angularExamApp')
           result = mapFields(providerMaps[serviceName].fields, collection);
         } else {
           var pager = getBounds(collection.length, page, perPage);
-          result = mapFields(providerMaps[serviceName].fields, collection.slice(pager.lowerBound, pager.upperBound))
+          //console.log(collection.slice(pager.lowerBound, pager.upperBound));
+          result = mapFields(providerMaps[serviceName].fields, collection.slice(pager.lowerBound, pager.upperBound));
+          console.log(result);
         }
 
         return result;

@@ -12,6 +12,8 @@ angular.module('angularExamApp').
   value('imgurApi', 'https://api.imgur.com/3/').
   value('apiAuthorization', window.devValues.imgur.clientId || 'your_client_id')
   .service('imgur', function ($http, imgurApi, apiAuthorization) {
+
+    //fully check this page for more options
     //https://api.imgur.com/endpoints/gallery
 
     /**
@@ -21,32 +23,32 @@ angular.module('angularExamApp').
     var qString = /(\?)(?=.*\1)/g;
 
     var defaults = {
-      path: 'gallery/hot/viral'
+      path: 'gallery/top/viral'
     };
 
     function createUrl(path, queryString, page, perPage) {
-      var finalPath = typeof path ==='undefined'? defaults.path : path
-        ,q;
+      var finalPath = typeof path === 'undefined' ? defaults.path : path
+        , q;
 
 
-      if(typeof queryString === 'object') {
-        Object.keys(queryString).forEach(function(p) {
-            q = q||'?';
-            q = q.length === 1?  q + p + '=' + queryString[p] : q + '&' + p + '=' + queryString[p];
+      if (typeof queryString === 'object') {
+        Object.keys(queryString).forEach(function (p) {
+          q = q || '?';
+          q = q.length === 1 ? q + p + '=' + queryString[p] : q + '&' + p + '=' + queryString[p];
         })
       }
 
-      if(typeof page !== 'undefined') {
-        q = q||'?';
-        q = q.length === 1? q + 'page=' + page : q + '&page=' + page;
+      if (typeof page !== 'undefined') {
+        q = q || '?';
+        q = q.length === 1 ? q + 'page=' + page : q + '&page=' + page;
       }
 
-      if(typeof perPage !== 'undefined') {
-        q = q||'?';
-        q = q.length === 1? q + 'perPage=' + perPage : q + '&perPage=' + perPage;
+      if (typeof perPage !== 'undefined') {
+        q = q || '?';
+        q = q.length === 1 ? q + 'perPage=' + perPage : q + '&perPage=' + perPage;
       }
 
-      var url = finalPath + (q||'');
+      var url = finalPath + (q || '');
 
       //Remove extra ? and return url
       return imgurApi + url.split('').reverse().join('').replace(qString, '').split('').reverse().join('');
@@ -56,8 +58,8 @@ angular.module('angularExamApp').
     function requestObject(url, clientId) {
       return {
         method: 'GET',
-        url:url,
-        headers:{
+        url: url,
+        headers: {
           'Authorization': 'Client-ID ' + clientId
         }
       };
@@ -69,7 +71,7 @@ angular.module('angularExamApp').
     }
 
     return {
-      get:fetchImages
+      get: fetchImages
     }
 
 

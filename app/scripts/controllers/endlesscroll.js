@@ -8,15 +8,17 @@
  * Controller of the angularExamApp
  */
 angular.module('angularExamApp')
-  .controller('EndlesscrollCtrl', function (imageProvider) {
+  .controller('EndlesscrollCtrl', function (imageProvider, $scope) {
 
+      $scope.data = [];
       //we pre inject service dependencies
       imageProvider.set(['imgur']);
 
-      var promise = imageProvider.get('imgur', undefined, undefined, 1, 10);
+      var promise = imageProvider.get('imgur', undefined, undefined, 1, 50);
       promise.then(function(data) {
-          //we can manipulate dom now
-        console.log(data);
+          $scope.$apply(function() {
+            $scope.data = data;
+          });
       });
 
   });
