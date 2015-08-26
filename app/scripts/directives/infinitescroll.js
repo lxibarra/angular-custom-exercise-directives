@@ -20,8 +20,9 @@ angular.module('angularExamApp')
         imageProvider.set(imageSources);
 
 
-        function getImages(source, channel, queryString, page, limit) {
-          var promise = imageProvider.get(source, channel, queryString, page, limit);
+        function getImages(source, channel, queryString, page, limit, inverse) {
+          var promise = imageProvider.get(source, channel, queryString, page, limit, inverse);
+          var thumbnails = angular.element('<div/>');
           promise.then(function (data) {
             data.forEach(function (img) {
               var col = angular.element('<div/>');
@@ -34,8 +35,23 @@ angular.module('angularExamApp')
               image.attr('src', img.url);
               item.append(image);
               col.append(item);
-              element.append(col);
+              thumbnails.append(col);
             });
+
+            var clear = angular.element('<div/>');
+            clear.attr('data-page', page);
+            clear.attr('data-limit', limit);
+            clear.css({'clear': 'both'});
+
+            thumbnails.append(clear);
+
+            if (inverse) {
+              element.prepend(thumbnails.children());
+            } else {
+              element.append(thumbnails.children());
+            }
+
+
             angular.element(attrs.indicator).hide();
           });
         }
@@ -74,17 +90,60 @@ angular.module('angularExamApp')
           }
         });
 
-        windowEl.on('scroll', function() {
-
-          if(windowEl.scrollTop() == (documentEl.height() - windowEl.height())) {
-            if(page > 16) {
+        windowEl.on('scroll', function () {
+          //  console.log(windowEl.scrollTop());
+          //is going down and reached the end
+          if (windowEl.scrollTop() == (documentEl.height() - windowEl.height())) {
+            if (page > 16) {
               page = 1;
             } else {
               page++;
             }
 
+            //aqui me quede
+            var clone = element.clone();
+
+            if (element.children().length > 10) {
+              var clone = element.clone();
+              console.log(clone.height());
+              // var clear = angular.element('<div/>');
+              // clear.css({'clear':'both'});
+              // clone.append(clear);
+              var whitespace = element.height() / 2;
+              // console.log(element.height(), clone.height());
+              //clone.children().slice(0,10).remove();
+
+              var dummyDiv = angular.element('<div/>');
+              console.log(whitespace);
+              dummyDiv.css({width: "100%"});
+              dummyDiv.css({height: whitespace + 'px'});
+              dummyDiv.attr('data-fetch', '1,10');
+              element.children().slice(0, 9).remove();
+              element.prepend(dummyDiv);
+            }
+
+
+            /*
+             var dummyDiv = angular.element('<div/>');
+             dummyDiv.css({width:"100%"});
+             dummyDiv.css({height:(documentEl.height() - windowEl.height()) + 'px'});
+
+             if(element.children().length > 9) {
+             console.log(dummyDiv.css('height'), windowEl.scrollTop(), windowEl.height());
+             element.children().remove();
+             element.append(dummyDiv);
+             }
+             */
+            //dummyDiv.style.height = documentEl.height();
+
+            //we can call slice on children just as a regular array to remove elements.
+            //$('parentSelector').children().slice(0, n).remove();
+            //console.log(element.children().length);
+
             angular.element(attrs.indicator).show();
             getImages(imageSources[0], attrs.channel, undefined, page, 9);
+
+          } else if (windowEl.scrollTop() === 0) { //going up and reached the top
 
           }
         });
