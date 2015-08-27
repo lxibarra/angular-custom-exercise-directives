@@ -12,7 +12,8 @@
     "angular-sanitize": "^1.3.0",
     "angular-touch": "^1.3.0",
     "handsontable": "~0.16.1",
-    "highcharts-release": "~4.1.7"
+    "highcharts-release": "~4.1.7",
+    "jquery-visible":"https://github.com/customd/jquery-visible.git"
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0"
