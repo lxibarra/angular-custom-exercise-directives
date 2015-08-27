@@ -16,8 +16,8 @@ angular.module('angularExamApp')
         var windowEl = angular.element($window);
         var documentEl = angular.element($document);
         var imageSources = attrs.imageSource.split(',');
-        var page = 1, scrollPromise = false;
-        var resultLimit = parseInt(attrs.limit||12);
+        var page = 1, scrollPromise = false, scrollPromiseUp = false, sequencePage = 0;
+        var resultLimit = parseInt(attrs.limit || 12);
         var preloadPriorat = 1;//Math.round(resultLimit / 2);
         var whitespace = 0, elementsSpace;
         var enablePrevFetch = false;
@@ -26,40 +26,47 @@ angular.module('angularExamApp')
 
         element.append('<div/>');
 
+        //more refactored way of working
+        function drawDomImages(data, page, inverse) {
+          var thumbnails = angular.element('<div/>');
+          data.forEach(function (img) {
+            var col = angular.element('<div/>');
+            col.addClass('col-xs-6 col-md-4 mario');
+            var item = angular.element('<div/>');
+            item.attr('data-url', "url('" + img.url + "')");
+            item.addClass('scroller-thumbnail');
+            item.attr('style', "background: url('" + img.url + "') center no-repeat;");
+            var image = angular.element('<img/>');
+            image.attr('src', img.url);
+            item.append(image);
+            col.append(item);
+            thumbnails.append(col);
+          });
+
+          var clear = angular.element('<div/>');
+          clear.addClass('content-divider');
+          clear.attr('data-page', page);
+          // clear.attr('data-limit', limit);
+          clear.attr('data-sequence', ++sequencePage);
+          clear.css({'clear': 'both'});
+
+          thumbnails.append(clear);
+
+          if (inverse) {
+            element.children().eq(0).after(thumbnails.children());
+          } else {
+            element.append(thumbnails.children());
+          }
+
+          elementsSpace = elementsSpace || element.height();
+          angular.element(attrs.indicator).hide();
+        }
+
+
         function getImages(source, channel, queryString, page, limit, inverse) {
           var promise = imageProvider.get(source, channel, queryString, page, limit, inverse);
-          var thumbnails = angular.element('<div/>');
           promise.then(function (data) {
-            data.forEach(function (img) {
-              var col = angular.element('<div/>');
-              col.addClass('col-xs-6 col-md-4 mario');
-              var item = angular.element('<div/>');
-              item.attr('data-url', "url('" + img.url + "')");
-              item.addClass('scroller-thumbnail');
-              item.attr('style', "background: url('" + img.url + "') center no-repeat;");
-              var image = angular.element('<img/>');
-              image.attr('src', img.url);
-              item.append(image);
-              col.append(item);
-              thumbnails.append(col);
-            });
-
-            var clear = angular.element('<div/>');
-            clear.addClass('content-divider');
-            clear.attr('data-page', page);
-            clear.attr('data-limit', limit);
-            clear.css({'clear': 'both'});
-
-            thumbnails.append(clear);
-
-            if (inverse) {
-              element.children().eq(0).after(thumbnails.children());
-            } else {
-              element.append(thumbnails.children());
-            }
-
-            elementsSpace = elementsSpace||element.height();
-            angular.element(attrs.indicator).hide();
+            drawDomImages(data, page, inverse);
           });
 
           return promise;
@@ -105,7 +112,6 @@ angular.module('angularExamApp')
           } else {
             page++;
           }
-          //this Should only execute when going down
           if (element.children().length > resultLimit + 2) {
             whitespace = element.height() / 2;
             element.children().slice(1, resultLimit + 2).remove();
@@ -119,48 +125,46 @@ angular.module('angularExamApp')
 
           //is going down and reached the end
           if (windowEl.scrollTop() == (documentEl.height() - windowEl.height())) {
-             if(scrollPromise === false) {
-               scrollPromise = true;
-               var promise = new Promise(function(resolve, reject) {
-                  resolve(getNextResultSet());
-               });
+            if (scrollPromise === false) {
+              scrollPromise = true;
+              var promise = new Promise(function (resolve, reject) {
+                resolve(getNextResultSet());
 
-               promise.then(function(){
-                 scrollPromise = false;
-               })
-             }
-          } else { }//if (windowEl.scrollTop() !== 0) { //going up and reached the top
-            //can also check if height is more than 0
-         //   console.log(enablePrevFetch, preloadPriorat, element.children().eq(preloadPriorat).visible());
+              });
 
-            /* //currently kind of working code
-            console.log(enablePrevFetch, preloadPriorat, element.children().eq(preloadPriorat).visible(true));
-             if (element.children().eq(preloadPriorat).visible(true) && enablePrevFetch) {
-                 enablePrevFetch = false;
-                console.log('Element ', preloadPriorat, ' is visible');
+              promise.then(function () {
+                scrollPromise = false;
+              })
+            }
+          } else {
 
-                if(page >1) {
-                  page--;
-                } else {
-                  page = 16;
-                }
+            if (element.children().eq(preloadPriorat).visible(true) && scrollPromiseUp === false) {
 
-               getImages(imageSources[0], attrs.channel, undefined, page, resultLimit, true);
-               var newHeight = whitespace - elementsSpace;
-               newHeight = newHeight < 0 ? 0 : newHeight;
-               console.log(whitespace, newHeight, whitespace - newHeight);
-               element.children().eq(0).css({ height:newHeight + "px"});
-             } else if (element.children().eq(preloadPriorat).visible(true) === false) {
-               enablePrevFetch = true;
-             }
-          }*/
+              //we get the first one
+              //im not at the top
+              if (windowEl.scrollTop() >= 600) { //ideal would be to calculate based on thumbnail height
+                scrollPromiseUp = true;
+                console.log('fired removal of bottom ones');
+                var separator = angular.element('.content-divider').eq(0);
+                var page1 = parseInt(separator.attr('data-page')) - 1;
+                page1 = page1 <= 0 ? 1 : page1;
+                console.log(page1);
+                var promiseUp = imageProvider.get(imageSources[0], attrs.channel, undefined, page1, resultLimit, true);
+                promiseUp.then(function (data) {
+                  drawDomImages(data, page1, true);
+                  var newHeight = element.children().eq(0).height() - elementsSpace;
+                  newHeight = newHeight < 0 ? 0 : newHeight;
+                  element.children().eq(0).css({width: "100%", height: newHeight + 'px'});
 
-          /*
-          if($('.content-divider').visible()) {
-            console.log($('.content-divider', element).eq(0).attr('data-page'), 'First Element is visible');
+                  var length = element.children().length;
+
+                  element.children().slice(length - resultLimit - 1, length).remove();
+                  scrollPromiseUp = false;
+                });
+              }
+            }
+
           }
-          */
-
         });
 
       }
